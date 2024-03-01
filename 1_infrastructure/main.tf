@@ -1,7 +1,7 @@
 
 # Below mentioned steps to refer the architecture.
 
-# 1. Created a VPC: 
+# 1. Created a VPC
 # 2. Added two Subnets in VPC 
 # 3. Created a Security Group
 # 4. Lanched an ELB as an entrypoint for both the subnets through VPC.
