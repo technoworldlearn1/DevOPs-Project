@@ -1,5 +1,6 @@
 
 # This file contains the AWS providers details
+# This is a sample file, in actual implemenation, we will install AWS CLI and will configure secret key and access key 
 
 terraform {
   required_providers {
@@ -13,5 +14,7 @@ terraform {
 # Configure the AWS Provider
 provider "aws" {
   region = "us-east-1"
+
+  
 }
 

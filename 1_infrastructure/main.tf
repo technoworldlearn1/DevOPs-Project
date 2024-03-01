@@ -1,4 +1,16 @@
 
+# creating a custom VPC 
+
+resource "aws_vpc" "main" {
+  cidr_block = "10.0.0.0/16"  # a sample CIDR block
+  enable_dns_support = true
+  enable_dns_hostnames = true
+
+tags = {
+    Name = "MyVPC"
+  }
+}
+
 
 resource "aws_security_group" "allow_web" {
   name        = "allow_web_traffic"
