@@ -11,6 +11,29 @@ tags = {
   }
 }
 
+# creating two subnets: subnet1, subnet2 under the custom VPC 
+
+resource "aws_subnet" "subnet1" {
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = "10.0.1.0/24"  # sample CIDR block
+  availability_zone = "us-east-1a"   # desired availability zone
+
+   tags = {
+    Name = "subnet-1"
+  }
+}
+
+resource "aws_subnet" "subnet2" {
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = "10.0.2.0/24"  # sample CIDR block
+  availability_zone = "us-east-1b"   # desired availability zone
+
+   tags = {
+    Name = "subnet-2"
+  }
+}
+
+
 
 resource "aws_security_group" "allow_web" {
   name        = "allow_web_traffic"
