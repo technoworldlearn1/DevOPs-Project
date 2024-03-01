@@ -1,4 +1,15 @@
 
+# Below mentioned steps to refer the architecture.
+
+# 1. Created a VPC: 
+# 2. Added two Subnets in VPC 
+# 3. Created a Security Group
+# 4. Lanched an ELB as an entrypoint for both the subnets through VPC.
+# 5. Created an ASG and Launch Configuration inside the subnets.
+# 6. Placed a DNS outside the VPC, linking it to the ELB.
+
+
+
 # creating a custom VPC 
 
 resource "aws_vpc" "main" {
