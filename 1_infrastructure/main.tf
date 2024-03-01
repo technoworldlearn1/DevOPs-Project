@@ -67,10 +67,10 @@ resource "aws_autoscaling_group" "example" {
 }
 
 
+# creating a security group 
 
-resource "aws_security_group" "allow_web" {
-  name        = "allow_web_traffic"
-  description = "Allow Web inbound traffic"
+resource "aws_security_group" "allow_http" {
+  vpc_id = aws_vpc.main.id
 
   ingress {
     from_port   = 80
@@ -86,6 +86,7 @@ resource "aws_security_group" "allow_web" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -94,17 +95,17 @@ resource "aws_security_group" "allow_web" {
   }
 
   tags = {
-    Name = "allow_web_traffic"
+    Name = "security-group"
   }
+
 }
 
-# Creating Ec2 instance with user data
+# launching an autoscaling template 
 
-resource "aws_instance" "app_server" {
-  ami           = "ami-0c02fb55956c7d316" # Change this to a valid AMI in your region
-  instance_type = "t2.micro"
-  key_name      = "your-key-pair-name" # Add your key pair 
-  security_groups = aws_security_group.allow_web.name
+resource "aws_launch_configuration" "example" {
+  image_id        = "ami-12345678"  # AMI ID
+  instance_type   = "t2.micro"      # instance type
+  security_groups = [aws_security_group.allow_http.name]
 
   user_data = <<-EOF
               #!/bin/bash
@@ -115,6 +116,24 @@ resource "aws_instance" "app_server" {
               EOF
 
   tags = {
-    Name = "Java App Server"
-  }
+    Name = "Java App Server1"
+  }            
 }
+
+# creating route53 
+
+resource "aws_route53_zone" "example" {
+  name = "example.com"
+}
+
+resource "aws_route53_record" "example" {
+  zone_id = aws_route53_zone.example.zone_id
+  name    = "example.com"
+  type    = "A"
+  ttl     = "300"
+  records = [aws_elb.example.dns_name]
+}
+
+
+
+
