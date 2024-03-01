@@ -34,6 +34,39 @@ resource "aws_subnet" "subnet2" {
 }
 
 
+# creating elastic loadbalancer 
+
+resource "aws_elb" "example" {
+  name               = "example-elb"
+  availability_zones = ["us-east-1a", "us-east-1b"]  
+    listener {
+    instance_port     = 8080
+    instance_protocol = "HTTP"
+    lb_port           = 80
+    lb_protocol       = "HTTP"
+  }
+
+  health_check {
+    target              = "HTTP:8080/"
+    interval            = 30
+    timeout             = 5
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+  }
+}
+
+
+# creating aws autoscaling group
+
+resource "aws_autoscaling_group" "example" {
+  availability_zones  = ["us-east-1a", "us-east-1b"]  
+  desired_capacity    = 2
+  min_size            = 1
+  max_size            = 10
+  launch_configuration = aws_launch_configuration.example.id
+}
+
+
 
 resource "aws_security_group" "allow_web" {
   name        = "allow_web_traffic"
