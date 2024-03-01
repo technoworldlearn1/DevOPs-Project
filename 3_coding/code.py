@@ -24,12 +24,11 @@ def export_redis_data_to_s3():
     output = StringIO()
     writer = csv.writer(output)
 
-    # Assuming simple key-value pairs for this example
+    
     for key in keys:
         value = r.get(key)
         writer.writerow([key, value])
-    
-    # Reset the file pointer to the beginning
+
     output.seek(0)
     
     # Upload the file to S3
